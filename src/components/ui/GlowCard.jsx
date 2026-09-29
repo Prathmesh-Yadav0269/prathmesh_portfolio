@@ -4,16 +4,19 @@ import { motion } from 'framer-motion'
 export default function GlowCard({ children, className = "", delay = 0 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-20px" }}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-      whileHover={{ y: -6, borderColor: "rgba(139, 92, 246, 0.3)", boxShadow: "0 15px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.05)" }}
-      transition={{ type: "spring", stiffness: 400, damping: 25 }}
-      className={`relative rounded-2xl border border-neutral-900 bg-neutral-950/40 backdrop-blur-md transition-colors duration-500 overflow-hidden group ${className}`}
+      transition={{ duration: 0.5, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      whileHover={{ y: -3 }}
+      className={`relative rounded-2xl border border-[var(--surface-card-border)] bg-[var(--surface-card)] transition-colors duration-300 overflow-hidden group shadow-[var(--shadow-card)] ${className}`}
     >
-      {/* Background hover gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/0 via-purple-500/0 to-transparent group-hover:from-blue-500/5 group-hover:via-purple-500/5 transition-all duration-550 pointer-events-none" />
+      {/* Subtle border highlight on hover */}
+      <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-[var(--accent-primary)]/30 pointer-events-none transition-colors duration-300" />
+      
+      {/* Restrained subtle corner glow on hover */}
+      <div className="absolute -top-24 -right-24 w-48 h-48 bg-[var(--accent-soft)] rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      
       {children}
     </motion.div>
   )

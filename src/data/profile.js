@@ -1,5 +1,5 @@
 export const profile = {
-  name: "Prathmesh Yadav",
+  name: "Prathmesh J. Yadav",
   roles: [
     "Full Stack Developer",
     "MERN Stack Developer",
@@ -8,6 +8,8 @@ export const profile = {
   ],
   bio: "Motivated B.Tech Computer Science student with hands-on experience in full-stack development and data-driven applications. Skilled in MERN stack, Python, and database systems. Passionate about building scalable software solutions and solving real-world problems using modern technologies.",
   email: "yadavprathmesh88180269@gmail.com",
+  phone: "+91 97662 58818",
+  phoneRaw: "+919766258818",
   location: "Islampur, Maharashtra",
   github: "https://github.com/Prathmesh-Yadav0269",
   githubUsername: "Prathmesh-Yadav0269",

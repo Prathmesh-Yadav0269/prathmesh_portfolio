@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Hero from '../components/sections/Hero'
 import About from '../components/sections/About'
 import SkillNetwork from '../components/sections/SkillNetwork'
-import ProjectsIntro from '../components/sections/ProjectsIntro'
-import ProjectChapter from '../components/sections/ProjectChapter'
+import ProjectsSection from '../components/sections/ProjectsSection'
 import Achievements from '../components/sections/Achievements'
 import Contact from '../components/sections/Contact'
 import { projects as localProjects } from '../data/projects'
@@ -18,14 +17,18 @@ export default function Home() {
       try {
         const data = await fetchProjects()
         if (active && Array.isArray(data) && data.length > 0) {
-          // Map backend response properties back to support chapterNumber / tech fallback
-          const mappedData = data.map((item, idx) => ({
-            ...item,
-            id: item.slug,
-            chapterNumber: `0${idx + 1}`,
-            subtitle: item.category,
-            tech: item.technologies
-          }))
+          // Merge backend response with local verified data to preserve workflows & architectures
+          const mappedData = data.map((item, idx) => {
+            const local = localProjects.find((p) => p.slug === item.slug) || {}
+            return {
+              ...local,
+              ...item,
+              id: item.slug,
+              chapterNumber: `0${idx + 1}`,
+              subtitle: item.category || local.subtitle,
+              tech: item.technologies || local.tech || []
+            }
+          })
           setProjectsList(mappedData)
         }
       } catch {
@@ -43,22 +46,7 @@ export default function Home() {
       <Hero />
       <About />
       <SkillNetwork />
-      <ProjectsIntro />
-      {projectsList.map((proj) => (
-        <ProjectChapter
-          key={proj.slug || proj.id}
-          slug={proj.slug}
-          chapterNumber={proj.chapterNumber}
-          title={proj.title}
-          subtitle={proj.subtitle || proj.category}
-          problem={proj.problem}
-          solution={proj.solution}
-          tech={proj.tech || proj.technologies}
-          features={proj.features}
-          learnings={proj.learnings}
-          github={proj.github}
-        />
-      ))}
+      <ProjectsSection projects={projectsList} />
       <Achievements />
       <Contact />
     </>

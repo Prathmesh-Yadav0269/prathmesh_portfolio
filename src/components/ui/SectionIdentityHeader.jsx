@@ -6,26 +6,26 @@ export default function SectionIdentityHeader({ label, title, description, align
   const alignClass = isCenter ? 'text-center items-center mx-auto' : 'text-left items-start'
   
   return (
-    <div className={`flex flex-col space-y-4 mb-16 relative z-10 ${alignClass} ${className}`}>
+    <div className={`flex flex-col space-y-3 mb-10 md:mb-14 relative z-10 ${alignClass} ${className}`}>
       {label && (
-        <Reveal delay={0.1} y={12}>
-          <span className="text-xs md:text-sm font-mono tracking-[0.25em] text-blue-400 uppercase bg-blue-900/10 border border-blue-500/15 px-4.5 py-1.5 rounded-full backdrop-blur-sm select-none">
+        <Reveal delay={0.1} y={8}>
+          <span className="text-[11px] sm:text-xs font-mono font-medium tracking-wider text-[var(--badge-text)] uppercase bg-[var(--badge-bg)] border border-[var(--badge-border)] px-3.5 py-1.5 rounded-md select-none inline-block">
             {label}
           </span>
         </Reveal>
       )}
       
       {title && (
-        <Reveal delay={0.18} y={15}>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-[1.25] max-w-3xl">
+        <Reveal delay={0.15} y={10}>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] leading-tight max-w-2xl">
             {title}
           </h2>
         </Reveal>
       )}
       
       {description && (
-        <Reveal delay={0.25} y={15}>
-          <p className="text-neutral-400 text-sm md:text-base leading-relaxed max-w-xl font-sans">
+        <Reveal delay={0.2} y={10}>
+          <p className="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed max-w-xl font-normal">
             {description}
           </p>
         </Reveal>

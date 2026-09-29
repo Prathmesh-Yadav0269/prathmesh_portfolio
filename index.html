@@ -3,13 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Prathmesh Yadav | Full Stack Developer</title>
-    <meta name="description" content="Portfolio of Prathmesh Yadav, a Full Stack Developer and Computer Science student building MERN and AI-powered applications." />
-    <meta name="keywords" content="Prathmesh Yadav, Full Stack Developer, MERN Developer, React Developer, Node.js, MongoDB, Portfolio" />
-    <meta name="author" content="Prathmesh Yadav" />
+    <title>Prathmesh J. Yadav | Full Stack Developer</title>
+    <meta name="description" content="Portfolio of Prathmesh J. Yadav, a Full Stack Developer and Computer Science student working with MERN, data-driven applications and AI/ML." />
+    <meta name="keywords" content="Prathmesh J. Yadav, Full Stack Developer, MERN Developer, React Developer, Node.js, MongoDB, Portfolio" />
+    <meta name="author" content="Prathmesh J. Yadav" />
+    <script>
+      (function() {
+        try {
+          var saved = localStorage.getItem('portfolio-theme');
+          var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          var theme = saved ? saved : (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-black text-white">
+  <body class="overflow-x-hidden antialiased selection:bg-blue-500/20 selection:text-blue-500">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

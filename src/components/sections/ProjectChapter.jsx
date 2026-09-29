@@ -10,65 +10,65 @@ export default function ProjectChapter({ chapterNumber, slug, title, subtitle, p
   const navigate = useNavigate()
 
   return (
-    <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 max-w-7xl mx-auto py-24 border-t border-neutral-900/40 relative overflow-hidden">
+    <section className="py-16 md:py-24 px-4 sm:px-6 md:px-12 max-w-[1200px] w-full mx-auto border-t border-[var(--border-subtle)] relative">
       <BackgroundGlow color={isEven ? "purple" : "blue"} size="large" className="top-1/3 right-10" />
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
         {/* Left Side: Problem & Solution Details */}
-        <div className="lg:col-span-7 space-y-8">
+        <div className="lg:col-span-7 space-y-6">
           
           {/* Chapter indicator */}
-          <Reveal delay={0.1} y={15}>
-            <div className="flex items-center space-x-3 text-xs font-mono uppercase tracking-widest text-neutral-500">
-              <span className="text-blue-400 font-bold">Project {chapterNumber}</span>
+          <Reveal delay={0.1} y={10}>
+            <div className="flex items-center space-x-2.5 text-xs font-mono uppercase tracking-wider text-[var(--text-muted)]">
+              <span className="text-[var(--accent-primary)] font-semibold">Project {chapterNumber}</span>
               <span>/</span>
               <span>Case Study</span>
             </div>
           </Reveal>
 
-          <div className="space-y-2">
-            <Reveal delay={0.15} y={15}>
-              <span className="text-sm font-mono tracking-wider text-purple-400 uppercase block">
+          <div className="space-y-1.5">
+            <Reveal delay={0.15} y={10}>
+              <span className="text-xs sm:text-sm font-mono tracking-wide text-[var(--accent-secondary)] uppercase block font-semibold">
                 {subtitle}
               </span>
             </Reveal>
-            <Reveal delay={0.2} y={20}>
-              <h3 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-none">
+            <Reveal delay={0.2} y={12}>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-[var(--text-primary)] leading-tight">
                 {title}
               </h3>
             </Reveal>
           </div>
           
           {/* Problem */}
-          <Reveal delay={0.25} y={20} className="space-y-2">
-            <h4 className="text-sm font-mono uppercase tracking-widest text-neutral-200 font-bold">
+          <Reveal delay={0.25} y={12} className="space-y-1.5">
+            <h4 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-[var(--text-primary)] font-semibold">
               The Problem
             </h4>
-            <p className="text-neutral-400 text-sm md:text-base leading-relaxed">
+            <p className="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed">
               {problem}
             </p>
           </Reveal>
 
           {/* Solution */}
-          <Reveal delay={0.3} y={20} className="space-y-2">
-            <h4 className="text-sm font-mono uppercase tracking-widest text-neutral-200 font-bold">
+          <Reveal delay={0.3} y={12} className="space-y-1.5">
+            <h4 className="text-xs sm:text-sm font-mono uppercase tracking-wider text-[var(--text-primary)] font-semibold">
               The Solution
             </h4>
-            <p className="text-neutral-400 text-sm md:text-base leading-relaxed">
+            <p className="text-[var(--text-secondary)] text-sm md:text-base leading-relaxed">
               {solution}
             </p>
           </Reveal>
 
           {/* Tech Stack */}
-          <Reveal delay={0.35} className="space-y-3">
-            <span className="text-xs font-mono uppercase tracking-widest text-neutral-500 block">
+          <Reveal delay={0.35} className="space-y-2.5 pt-1">
+            <span className="text-xs font-mono uppercase tracking-wider text-[var(--text-muted)] block">
               Technologies Used
             </span>
             <div className="flex flex-wrap gap-2">
               {tech.map((t, idx) => (
                 <span
                   key={idx}
-                  className="px-3.5 py-1.5 rounded-lg text-xs font-mono bg-neutral-950 border border-neutral-900 text-neutral-300 hover:text-white hover:border-neutral-700 transition-all duration-300 cursor-default"
+                  className="px-3 py-1.5 rounded-lg text-xs font-mono bg-[var(--surface-hover)] border border-[var(--border-subtle)] text-[var(--text-secondary)]"
                 >
                   {t}
                 </span>
@@ -79,19 +79,17 @@ export default function ProjectChapter({ chapterNumber, slug, title, subtitle, p
 
         {/* Right Side: Features & Key Learnings */}
         <div className="lg:col-span-5 relative">
-          <Reveal delay={0.4} y={30}>
-            <GlowCard className="p-8 space-y-6 hover:border-neutral-800 transition-all duration-500 relative">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-bl from-blue-500/10 to-transparent blur-2xl" />
-              
+          <Reveal delay={0.3} y={16}>
+            <GlowCard className="p-6 sm:p-7 space-y-6">
               {/* Features list */}
-              <div className="space-y-3 relative z-10">
-                <span className="text-neutral-550 text-xs font-mono uppercase tracking-widest block text-neutral-500">
+              <div className="space-y-3">
+                <span className="text-xs font-mono uppercase tracking-wider block text-[var(--text-muted)] font-semibold">
                   Key Features
                 </span>
-                <ul className="space-y-2">
+                <ul className="space-y-2.5">
                   {features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center space-x-2.5 text-sm text-neutral-300">
-                      <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                    <li key={idx} className="flex items-start space-x-2.5 text-xs sm:text-sm text-[var(--text-secondary)]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] mt-1.5 shrink-0" />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -100,22 +98,22 @@ export default function ProjectChapter({ chapterNumber, slug, title, subtitle, p
 
               {/* Learnings */}
               {learnings && (
-                <div className="space-y-2 relative z-10 border-t border-neutral-900 pt-4">
-                  <span className="text-neutral-550 text-xs font-mono uppercase tracking-widest block text-neutral-500">
+                <div className="space-y-2 border-t border-[var(--border-subtle)] pt-4">
+                  <span className="text-xs font-mono uppercase tracking-wider block text-[var(--text-muted)] font-semibold">
                     Key Learnings
                   </span>
-                  <p className="text-xs md:text-sm leading-relaxed text-neutral-400">
+                  <p className="text-xs sm:text-sm leading-relaxed text-[var(--text-secondary)]">
                     {Array.isArray(learnings) ? learnings.join(', ') : learnings}
                   </p>
                 </div>
               )}
 
               {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row items-center gap-3 relative z-10 pt-2 w-full">
+              <div className="flex flex-col sm:flex-row items-center gap-3 pt-2 w-full">
                 <AnimatedButton
                   onClick={() => navigate(`/projects/${slug}`)}
                   variant="primary"
-                  className="w-full py-3 !rounded-xl text-center text-xs font-semibold"
+                  className="w-full py-2.5 text-center text-xs font-semibold"
                 >
                   View Case Study
                 </AnimatedButton>
@@ -123,7 +121,7 @@ export default function ProjectChapter({ chapterNumber, slug, title, subtitle, p
                   <AnimatedButton
                     href={github}
                     variant="secondary"
-                    className="w-full py-3 !rounded-xl text-center text-xs font-semibold"
+                    className="w-full py-2.5 text-center text-xs font-semibold"
                     target="_blank"
                     rel="noreferrer"
                   >

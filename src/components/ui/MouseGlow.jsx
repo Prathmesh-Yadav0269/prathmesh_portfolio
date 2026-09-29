@@ -2,30 +2,34 @@ import React, { useEffect } from 'react'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 export default function MouseGlow() {
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
+  const mouseX = useMotionValue(-500)
+  const mouseY = useMotionValue(-500)
 
-  const springConfig = { damping: 40, stiffness: 200, mass: 0.5 }
+  const springConfig = { damping: 45, stiffness: 180, mass: 0.5 }
   const glowX = useSpring(mouseX, springConfig)
   const glowY = useSpring(mouseY, springConfig)
 
   useEffect(() => {
+    // Only track if pointer is fine (desktop)
+    const isFinePointer = window.matchMedia('(pointer: fine)').matches
+    if (!isFinePointer) return
+
     const handleMouseMove = (e) => {
-      mouseX.set(e.clientX - 200)
-      mouseY.set(e.clientY - 200)
+      mouseX.set(e.clientX - 160)
+      mouseY.set(e.clientY - 160)
     }
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [mouseX, mouseY])
 
   return (
     <motion.div
-      className="pointer-events-none fixed z-30 w-[400px] h-[400px] rounded-full hidden md:block"
+      className="pointer-events-none fixed z-30 w-[320px] h-[320px] rounded-full hidden md:block"
       style={{
         x: glowX,
         y: glowY,
-        background: 'radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(147, 51, 234, 0.06) 50%, transparent 100%)',
-        filter: 'blur(40px)',
+        background: 'radial-gradient(circle, var(--glow-primary) 0%, transparent 70%)',
+        filter: 'blur(50px)',
       }}
     />
   )

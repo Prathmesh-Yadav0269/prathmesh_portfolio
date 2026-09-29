@@ -1,18 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
+import { Sun, Moon, Menu, X } from 'lucide-react'
+import { useTheme } from '../../hooks/useTheme'
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
-  const [hoveredIndex, setHoveredIndex] = useState(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeSection, setActiveSection] = useState('home')
+  const { isDark, toggleTheme } = useTheme()
   const location = useLocation()
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -27,14 +30,12 @@ export default function Navbar() {
 
     const sections = ['home', 'about', 'skills', 'projects', 'achievements', 'contact']
     
-    // Only observe sections if we are on the homepage
     if (location.pathname === '/') {
       sections.forEach((id) => {
         const el = document.getElementById(id)
         if (el) observer.observe(el)
       })
     } else {
-      // Set active section inside timeout to avoid rendering cascade in effect body
       const timer = setTimeout(() => {
         setActiveSection('')
       }, 0)
@@ -63,53 +64,116 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 px-4 md:px-12 flex items-center justify-between h-[72px] ${
-      scrolled 
-        ? 'bg-black/60 backdrop-blur-xl border-b border-white/5' 
-        : 'bg-transparent border-b border-transparent'
-    }`}>
-      <a 
-        href="/#home" 
-        className="text-base md:text-xl font-bold tracking-tight text-white relative group shrink-0"
+    <header className="fixed top-0 left-0 w-full z-50">
+      <nav
+        aria-label="Main Navigation"
+        className={`w-full transition-all duration-300 px-4 sm:px-6 md:px-12 flex items-center justify-between h-16 md:h-18 ${
+          scrolled || mobileMenuOpen
+            ? 'bg-[var(--nav-bg)] backdrop-blur-xl border-b border-[var(--nav-border)] shadow-sm' 
+            : 'bg-transparent border-b border-transparent'
+        }`}
       >
-        <span>Prathmesh</span>
-        <span className="text-blue-400">.dev</span>
-        <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-gradient-to-r from-blue-400 to-purple-500 group-hover:w-full transition-all duration-300" />
-      </a>
-      
-      <div className="flex items-center space-x-0.5 sm:space-x-1 md:space-x-2 relative overflow-x-auto max-w-full no-scrollbar py-1">
-        {navItems.map((item, idx) => {
-          const anchor = item.href.split('#')[1]
-          const isItemActive = location.pathname === '/' && activeSection === anchor
-          return (
-            <a
-              key={item.label}
-              href={item.href}
-              onMouseEnter={() => setHoveredIndex(idx)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              className={`text-[10px] sm:text-xs md:text-sm font-medium px-2 py-1.5 md:px-3 rounded-full relative transition-colors duration-350 whitespace-nowrap ${
-                isItemActive ? 'text-white' : 'text-neutral-400 hover:text-neutral-250'
-              }`}
-            >
-              <span className="relative z-10">{item.label}</span>
-              {isItemActive && (
-                <motion.span
-                  layoutId="navActive"
-                  className="absolute inset-0 bg-neutral-900 border border-white/5 shadow-inner rounded-full z-0"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-              {hoveredIndex === idx && !isItemActive && (
-                <motion.span
-                  layoutId="navHover"
-                  className="absolute inset-0 bg-neutral-900/40 rounded-full border border-neutral-900/50 z-0"
-                  transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                />
-              )}
-            </a>
-          )
-        })}
-      </div>
-    </nav>
+        {/* Brand Logo */}
+        <a 
+          href="/#home" 
+          className="text-base sm:text-lg md:text-xl font-bold tracking-tight text-[var(--text-primary)] relative group shrink-0 flex items-center"
+          aria-label="Prathmesh J. Yadav Home"
+        >
+          <span>Prathmesh J</span>
+          <span className="text-[var(--accent-primary)] font-bold">.</span>
+          <span>&nbsp;Yadav</span>
+        </a>
+        
+        {/* Desktop Navigation Links */}
+        <div className="hidden md:flex items-center space-x-1 lg:space-x-2 py-1">
+          {navItems.map((item) => {
+            const anchor = item.href.split('#')[1]
+            const isItemActive = location.pathname === '/' && activeSection === anchor
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`text-xs lg:text-sm font-medium px-3 py-1.5 rounded-lg relative transition-colors duration-200 ${
+                  isItemActive 
+                    ? 'text-[var(--text-primary)] font-semibold' 
+                    : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
+                }`}
+              >
+                <span className="relative z-10">{item.label}</span>
+                {isItemActive && (
+                  <motion.span
+                    layoutId="navActiveIndicator"
+                    className="absolute inset-0 bg-[var(--surface-hover)] border border-[var(--border-subtle)] rounded-lg z-0"
+                    transition={{ type: 'spring', stiffness: 450, damping: 32 }}
+                  />
+                )}
+              </a>
+            )
+          })}
+        </div>
+
+        {/* Right Action: Theme Toggle + Mobile Menu Trigger */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          {/* Theme Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="w-9 h-9 rounded-lg border border-[var(--border-primary)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent-primary)] flex items-center justify-center transition-all duration-200 cursor-pointer"
+          >
+            {isDark ? (
+              <Sun className="w-4 h-4 text-amber-400 transition-transform duration-300 hover:rotate-45" />
+            ) : (
+              <Moon className="w-4 h-4 text-blue-600 transition-transform duration-300 hover:-rotate-12" />
+            )}
+          </button>
+
+          {/* Mobile Menu Button */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            className="md:hidden w-9 h-9 rounded-lg border border-[var(--border-primary)] bg-[var(--surface)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] flex items-center justify-center transition-colors cursor-pointer"
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Drawer Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            className="md:hidden w-full bg-[var(--nav-bg)] backdrop-blur-2xl border-b border-[var(--nav-border)] px-4 py-4 overflow-hidden shadow-xl"
+          >
+            <div className="flex flex-col space-y-1">
+              {navItems.map((item) => {
+                const anchor = item.href.split('#')[1]
+                const isItemActive = location.pathname === '/' && activeSection === anchor
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      isItemActive
+                        ? 'bg-[var(--accent-soft)] text-[var(--accent-primary)] font-semibold'
+                        : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-hover)]'
+                    }`}
+                  >
+                    {item.label}
+                  </a>
+                )
+              })}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   )
 }

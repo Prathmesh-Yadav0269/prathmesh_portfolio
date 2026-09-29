@@ -8,11 +8,11 @@ export default function MainLayout({ children }) {
   useLenis()
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/35 selection:text-white relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-sans relative overflow-x-hidden transition-colors duration-300">
       {/* Trailing cursor backdrop glow */}
       <MouseGlow />
 
-      {/* Cinematic subtle background grid pattern */}
+      {/* Theme-aware background grid pattern */}
       <div className="fixed inset-0 grid-overlay pointer-events-none z-0" />
       
       <Navbar />
